@@ -1,19 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, View } from "react-native";
+import MeuComponente from "./componentes/MeusComponentes";
+import MinMax from "./componentes/MinMax";
 
 export default function App() {
   return (
-    <View >
-      
-      <Image style={styles.im} source={{uri:"https://static.expo.dev/static/brand/square-512x512.png"}}/> 
-
+    <View style={styles.container}>
+      <MeuComponente/>
+      <MinMax min={10} max={20} />
+      <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  im: {
-    width:60,
-    height:60,
+  container: {
+    flex: 1,
+    backgroundColor: "grey",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

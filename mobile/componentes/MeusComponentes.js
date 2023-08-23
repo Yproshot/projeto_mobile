@@ -1,10 +1,10 @@
-import { View, Text } from "react-native/types";
+import { View, Text } from "react-native";
 
 export default function MeuComponente() {
     return(
             <View>
                 <Text>
-                    MeuComponente
+                    Teste mobile
                 </Text>
             </View>
     )
