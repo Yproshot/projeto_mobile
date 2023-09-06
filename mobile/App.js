@@ -1,16 +1,19 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
+import BiscoitoDaSorte from "./componentes/BiscoitoDaSorte";
 import MeuComponente from "./componentes/MeusComponentes";
 import MinMax from "./componentes/MinMax";
 import NumeroAleatorio from "./componentes/NumeroAleatorio";
 
 export default function App() {
+  
   return (
     <View style={styles.container}>
-      <MeuComponente/>
+      {/*<MeuComponente/>
       <NumeroAleatorio min={10} max={20}/>
       <MinMax min={10} max={20} />
-      <StatusBar style="auto" />
+  <StatusBar style="auto" />*/}
+  <BiscoitoDaSorte/>
     </View>
   );
 }
