@@ -4,6 +4,7 @@ import BiscoitoDaSorte from "./componentes/BiscoitoDaSorte";
 import MeuComponente from "./componentes/MeusComponentes";
 import MinMax from "./componentes/MinMax";
 import NumeroAleatorio from "./componentes/NumeroAleatorio";
+import Profile from "./componentes/Profile";
 
 export default function App() {
   
@@ -12,8 +13,10 @@ export default function App() {
       {/*<MeuComponente/>
       <NumeroAleatorio min={10} max={20}/>
       <MinMax min={10} max={20} />
-  <StatusBar style="auto" />*/}
-  <BiscoitoDaSorte/>
+  <StatusBar style="auto" />*/
+  /*<BiscoitoDaSorte/>*/}
+  <Profile/>
+
     </View>
   );
 }
