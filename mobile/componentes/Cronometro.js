@@ -6,7 +6,6 @@ const Cronometro = () => {
   const [minutos, setMinutos] = useState(0);
   const [horas, setHoras] = useState(0);
   const [pausado, setPausado] = useState(true);
-  const [ultimoTempo, setUltimoTempo] = useState('');
 
   useEffect(() => {
     let intervalo = null;
@@ -38,7 +37,6 @@ const Cronometro = () => {
 
   const pausarCronometro = () => {
     setPausado(true);
-    setUltimoTempo(`${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`);
   };
 
   const reiniciarCronometro = () => {
@@ -46,7 +44,6 @@ const Cronometro = () => {
     setMinutos(0);
     setHoras(0);
     setPausado(true);
-    setUltimoTempo('');
   };
 
   return (
@@ -58,9 +55,6 @@ const Cronometro = () => {
       <TouchableOpacity style={styles.botao} onPress={reiniciarCronometro}>
         <Text style={styles.textoBotao}>Reiniciar</Text>
       </TouchableOpacity>
-      {ultimoTempo !== '' && (
-        <Text style={styles.ultimoTempo}>Último tempo: {ultimoTempo}</Text>
-      )}
     </View>
   );
 };
@@ -70,7 +64,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'grey'
   },
   texto: {
     fontSize: 48,
@@ -85,10 +78,6 @@ const styles = StyleSheet.create({
   textoBotao: {
     color: '#FFF',
     fontSize: 18,
-  },
-  ultimoTempo: {
-    fontSize: 16,
-    marginTop: 10
   },
 });
 
