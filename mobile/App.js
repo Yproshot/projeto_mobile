@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, _View } from 'react-native';
+import Router from './Router/Router';
 
-const Cronometro = () => {
+
+const Cronometro = () => { {/*
   const [segundos, setSegundos] = useState(0);
   const [minutos, setMinutos] = useState(0);
   const [horas, setHoras] = useState(0);
@@ -28,8 +30,8 @@ const Cronometro = () => {
     } else if (pausado && segundos !== 0) {
       clearInterval(intervalo);
     }
-
-    return () => clearInterval(intervalo);
+  
+    return ()=> clearInterval(intervalo);
   }, [pausado, segundos, minutos, horas]);
 
   const iniciarCronometro = () => {
@@ -48,10 +50,14 @@ const Cronometro = () => {
     setPausado(true);
     setUltimoTempo('');
   };
-
+*/}
   return (
-    <View style={styles.container}>
-      <Text style={styles.texto}>{horas.toString().padStart(2, '0')}:{minutos.toString().padStart(2, '0')}:{segundos.toString().padStart(2, '0')}</Text>
+      <View style={styles.container}>
+
+        <Router>
+          
+        </Router>
+      {/*<Text style={styles.texto}>{horas.toString().padStart(2, '0')}:{minutos.toString().padStart(2, '0')}:{segundos.toString().padStart(2, '0')}</Text>
       <TouchableOpacity style={styles.botao} onPress={pausado ? iniciarCronometro : pausarCronometro}>
         <Text style={styles.textoBotao}>{pausado ? 'Iniciar' : 'Pausar'}</Text>
       </TouchableOpacity>
@@ -60,8 +66,12 @@ const Cronometro = () => {
       </TouchableOpacity>
       {ultimoTempo !== '' && (
         <Text style={styles.ultimoTempo}>Último tempo: {ultimoTempo}</Text>
-      )}
-    </View>
+      )}*/}
+      </View>
+
+ 
+
+
   );
 };
 
