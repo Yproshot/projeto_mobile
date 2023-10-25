@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
 
 export default Cronometro;
 */
-
+/*
 import React, { useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { Button, Card, Divider, IconButton, Text, TextInput } from 'react-native-paper'
@@ -232,4 +232,22 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     width: 30
   }
-})
+})*/
+
+import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
+
+import { PaperProvider } from 'react-native-paper';
+import DrawerRoutes from './router/DrawerRoutes';
+import Toast from 'react-native-toast-message';
+
+export default function App() {
+  return (
+    <PaperProvider>
+      <NavigationContainer>
+        <DrawerRoutes />
+      </NavigationContainer>
+      <Toast />
+    </PaperProvider>
+  );
+}
