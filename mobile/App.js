@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, _View } from 'react-native';
 import Router from './Router/Router';
+import 'react-native-gesture-handler';
+
 
 
 const Cronometro = () => { {/*
