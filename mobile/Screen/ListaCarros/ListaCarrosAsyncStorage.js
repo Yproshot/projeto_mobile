@@ -1,41 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { Button, Card, IconButton, Text, TextInput } from 'react-native-paper'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function ListaCarros() {
 
-    const [carros, setCarros] = useState([])
+    const [carros, setCarros] = useState(["Gol", "Civic"])
     const [inputValue, setInputValue] = useState('')
     const [editando, setEditando] = useState(false)
     const [carroSendoEditado, setCarroSendoEditado] = useState(null)
 
-    useEffect(() =>(
-        loadCarros()
-    ),[])
-
-    async function loadCarros(){
-        const response = await AsyncStorage.getItem('carros')
-        
-        const carrosStorage = response ? JSON.parse(response) : []
-    }
-
-    async function adicionarCarro() {
+    function adicionarCarro() {
         console.log('ADICIONAR CARRO')
         let novaListaCarros = carros
         novaListaCarros.push(inputValue)
         setCarros(novaListaCarros)
-
-        await AsyncStorage.setItem('carros', JSON.stringify(novaListaCarros));
-
-        const carrosStorage = await AsyncStorage.getItem('carros')
-        console.log(ListaCarros)
-
         setCarroSendoEditado(null)
         setInputValue('')
     }
 
-    async function editarCarro() {
+    function editarCarro() {
         console.log('EDITAR CARRO')
         console.log('carroSendoEditado: ', carroSendoEditado)
         console.log('carroASerEditado inputValue: ', inputValue)
@@ -45,18 +28,13 @@ export default function ListaCarros() {
 
         novaListaCarros.splice(index, 1, inputValue)
 
-        await AsyncStorage.setItem('carros', JSON.stringify(novaListaCarros));
-
         setCarros(novaListaCarros)
         setEditando(false)
         setInputValue('')
     }
 
-    async function excluirCarro(carro) {
+    function excluirCarro(carro) {
         let novaListaCarros = carros.filter(item => item !== carro)
-
-        await AsyncStorage.setItem('carros', JSON.stringify(novaListaCarros));
-
         setCarros(novaListaCarros)
     }
 

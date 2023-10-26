@@ -13,7 +13,7 @@ export default function DrawerRoutes() {
         <Drawer.Navigator initialRouteName='Pessoas'>
 
             <Drawer.Screen name="Home" component={Home} />
-            <Drawer.Screen name="Carros" component={ListaCarros} />
+            <Drawer.Screen name="CarrosAsyncStorage" component={ListaCarros} />
             <Drawer.Screen name="Pessoas" component={StackPessoas} />
 
         </Drawer.Navigator>
