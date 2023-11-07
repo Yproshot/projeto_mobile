@@ -3,75 +3,75 @@ import { FlatList, StyleSheet, View } from 'react-native'
 import { Button, Card, IconButton, Text, TextInput } from 'react-native-paper'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-export default function ListaCarros() {
+export default function ListaTarefas() {
 
-    const [carros, setCarros] = useState([])
+    const [tarefas, setTarefas] = useState([])
     const [inputValue, setInputValue] = useState('')
     const [editando, setEditando] = useState(false)
-    const [carroSendoEditado, setCarroSendoEditado] = useState(null)
+    const [tarefaSendoEditado, setTarefaSendoEditado] = useState(null)
 
     useEffect(() =>(
-        loadCarros()
+        loadTarefas()
     ),[])
 
-    async function loadCarros(){
-        const response = await AsyncStorage.getItem('carros')
+    async function loadTarefas(){
+        const response = await AsyncStorage.getItem('tarefas')
         
-        const carrosStorage = response ? JSON.parse(response) : []
+        const tarefasStorage = response ? JSON.parse(response) : []
     }
 
-    async function adicionarCarro() {
-        console.log('ADICIONAR CARRO')
-        let novaListaCarros = carros
-        novaListaCarros.push(inputValue)
-        setCarros(novaListaCarros)
+    async function adicionarTarefa() {
+        console.log('ADICIONAR TAREFA')
+        let novaListaTarefas = tarefas
+        novaListaTarefas.push(inputValue)
+        setTarefas(novaListaTarefas)
 
-        await AsyncStorage.setItem('carros', JSON.stringify(novaListaCarros));
+        await AsyncStorage.setItem('tarefas', JSON.stringify(novaListaTarefas));
 
-        const carrosStorage = await AsyncStorage.getItem('carros')
-        console.log(ListaCarros)
+        const tarefasStorage = await AsyncStorage.getItem('tarefas')
+        console.log(ListaTarefas)
 
-        setCarroSendoEditado(null)
+        setTarefaSendoEditado(null)
         setInputValue('')
     }
 
-    async function editarCarro() {
-        console.log('EDITAR CARRO')
-        console.log('carroSendoEditado: ', carroSendoEditado)
-        console.log('carroASerEditado inputValue: ', inputValue)
+    async function editarTarefa() {
+        console.log('EDITAR TAREFA')
+        console.log('tarefaSendoEditado: ', tarefaSendoEditado)
+        console.log('tarefaASerEditado inputValue: ', inputValue)
 
-        let index = carros.indexOf(carroSendoEditado)
-        let novaListaCarros = carros
+        let index = tarefas.indexOf(tarefaSendoEditado)
+        let novaListaTarefas = tarefas
 
-        novaListaCarros.splice(index, 1, inputValue)
+        novaListaTarefas.splice(index, 1, inputValue)
 
-        await AsyncStorage.setItem('carros', JSON.stringify(novaListaCarros));
+        await AsyncStorage.setItem('tarefas', JSON.stringify(novaListaTarefas));
 
-        setCarros(novaListaCarros)
+        setTarefas(novaListaTarefas)
         setEditando(false)
         setInputValue('')
     }
 
-    async function excluirCarro(carro) {
-        let novaListaCarros = carros.filter(item => item !== carro)
+    async function excluirTarefa(tarefa) {
+        let novaListaTarefas = tarefas.filter(item => item !== tarefa)
 
-        await AsyncStorage.setItem('carros', JSON.stringify(novaListaCarros));
+        await AsyncStorage.setItem('tarefas', JSON.stringify(novaListaTarefas));
 
-        setCarros(novaListaCarros)
+        setTarefas(novaListaTarefas)
     }
 
-    function handleEditarCarro(carro) {
-        setCarroSendoEditado(carro)
-        setInputValue(carro)
+    function handleEditarTarefa(tarefa) {
+        setTarefaSendoEditado(tarefa)
+        setInputValue(tarefa)
         setEditando(true)
     }
 
     function handleButton() {
         console.log('HANDLE BUTTON -> editando: ', editando)
         if (editando) {
-            editarCarro()
+            editarTarefa()
         } else {
-            adicionarCarro()
+            adicionarTarefa()
         }
     }
 
@@ -83,7 +83,7 @@ export default function ListaCarros() {
                 <TextInput
                     style={{ flex: 4 }}
                     mode='outlined'
-                    label='Carro'
+                    label='Tarefa'
                     value={inputValue}
                     onChangeText={(text) => setInputValue(text)}
                 />
@@ -103,7 +103,7 @@ export default function ListaCarros() {
 
             <FlatList
                 style={styles.list}
-                data={carros}
+                data={tarefas}
                 renderItem={({ item }) => (
                     <Card
                         style={styles.card}
@@ -112,10 +112,10 @@ export default function ListaCarros() {
                         <Card.Content style={styles.cardContent}>
                             <Text variant='titleMedium' style={{ flex: 1 }}>{item}</Text>
                             <IconButton icon='pen' onPress={() => {
-                                handleEditarCarro(item)
+                                handleEditarTarefa(item)
                             }} />
                             <IconButton icon='trash-can-outline' onPress={() => {
-                                excluirCarro(item)
+                                excluirTarefa(item)
                             }} />
                         </Card.Content>
                     </Card>

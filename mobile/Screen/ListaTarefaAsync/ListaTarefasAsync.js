@@ -2,28 +2,28 @@ import React, { useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
 import { Button, Card, IconButton, Text, TextInput } from 'react-native-paper'
 
-export default function ListaTarefasAsync() {
+export default function ListaTarefas() {
 
-    const [tarefas, setTarefas] = useState(["Gol", "Civic"])
+    const [tarefas, setTarefas] = useState('')
     const [inputValue, setInputValue] = useState('')
     const [editando, setEditando] = useState(false)
-    const [tarefasendoEditado, setTarefasendoEditado] = useState(null)
+    const [tarefaSendoEditado, setTarefaSendoEditado] = useState(null)
 
     function adicionarTarefa() {
         console.log('ADICIONAR TAREFA')
         let novaListaTarefas = tarefas
         novaListaTarefas.push(inputValue)
         setTarefas(novaListaTarefas)
-        setTarefasendoEditado(null)
+        setTarefaSendoEditado(null)
         setInputValue('')
     }
 
     function editarTarefa() {
         console.log('EDITAR TAREFA')
-        console.log('tarefasendoEditado: ', tarefasendoEditado)
+        console.log('tarefaSendoEditado: ', tarefaSendoEditado)
         console.log('tarefaASerEditado inputValue: ', inputValue)
 
-        let index = tarefas.indexOf(tarefasendoEditado)
+        let index = tarefas.indexOf(tarefaSendoEditado)
         let novaListaTarefas = tarefas
 
         novaListaTarefas.splice(index, 1, inputValue)
@@ -39,7 +39,7 @@ export default function ListaTarefasAsync() {
     }
 
     function handleEditarTarefa(tarefa) {
-        setTarefasendoEditado(tarefa)
+        setTarefaSendoEditado(tarefa)
         setInputValue(tarefa)
         setEditando(true)
     }
