@@ -1,136 +1,114 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { FlatList, StyleSheet, View } from 'react-native'
-import { Button, Card, Dialog, FAB, MD3Colors, Portal, Text } from 'react-native-paper'
+import { Button, Card, Dialog, MD3Colors, Portal, Text } from 'react-native-paper'
 import Toast from 'react-native-toast-message'
 
-
-export default function ListaAlunosAsyncStorage({ navigation, route }) {
+export default function ListaAlunosAsyncStorage({ navigation }) {
 
   const [alunos, setAlunos] = useState([])
-  const [showModalExcluirUsuario, setShowModalExcluirUsuario] = useState(false)
-  const [alunoASerExcluido, setAlunoASerExcluido] = useState(null)
 
-
-  useEffect(() => {
-    loadAlunos()
+  useState(() => {
+    getAlunos()
+    console.log("🚀 ~ file: ListaAlunosStorage.js:11 ~ getAlunos ~ alunos:", alunos)
   }, [])
 
-  async function loadAlunos() {
-    const response = await AsyncStorage.getItem('alunos')
-    console.log("🚀 ~ file: ListaAlunosAsyncStorage.js:21 ~ loadAlunos ~ response:", response)
-    const alunosStorage = response ? JSON.parse(response) : []
-    setAlunos(alunosStorage)
-  }
-
-
-
-  const showModal = () => setShowModalExcluirUsuario(true);
-
-  const hideModal = () => setShowModalExcluirUsuario(false);
-
-  async function adicionarAluno(aluno) {
-    let novaListaAlunos = alunos
-    novaListaAlunos.push(aluno)
-    await AsyncStorage.setItem('alunos', JSON.stringify(novaListaAlunos));
-    setAlunos(novaListaAlunos)
-  }
-
-  async function editarAluno(alunoAntigo, novosDados) {
-    console.log('ALUNO ANTIGO -> ', alunoAntigo)
-    console.log('DADOS NOVOS -> ', novosDados)
-
-    const novaListaAlunos = alunos.map(aluno => {
-      if (aluno == alunoAntigo) {
-        return novosDados
-      } else {
-        return aluno
-      }
-    })
-
-    await AsyncStorage.setItem('alunos', JSON.stringify(novaListaAlunos))
-    setAlunos(novaListaAlunos)
-
-  }
-
-  async function excluirAluno(aluno) {
-    const novaListaAlunos = alunos.filter(p => p !== aluno)
-    await AsyncStorage.setItem('alunos', JSON.stringify(novaListaAlunos))
-    setAlunos(novaListaAlunos)
-    Toast.show({
-      type: 'success',
-      text1: 'Aluno excluido com sucesso!'
+  async function getAlunos() {
+    await AsyncStorage.getItem('@alunos').then(response => {
+      const resultado = JSON.parse(response) || []
+      setAlunos(resultado)
     })
   }
 
-  function handleExluirAluno() {
-    excluirAluno(alunoASerExcluido)
-    setAlunoASerExcluido(null)
-    hideModal()
+  async function adicionar(aluno) {
+    try {
+      const novaListaAlunos = alunos
+      alunos.push(aluno)
+      await AsyncStorage.setItem('@alunos', JSON.stringify(novaListaAlunos))
+      setAlunos(novaListaAlunos)
+      Toast.show({ type: 'success', text1: 'Aluno adicionada com sucesso!' })
+    } catch (error) {
+      console.error("Erro ao adicionar aluno: ", error)
+      Toast.show({ type: 'error', text1: 'Erro ao adicionar aluno' })
+    }
+  }
+
+  async function editar(aluno, newAluno) {
+    try {
+      const novaListaAlunos = alunos.map(item => item === aluno ? newAluno : item)
+      await AsyncStorage.setItem('@alunos', JSON.stringify(novaListaAlunos))
+      setAlunos(novaListaAlunos)
+      Toast.show({ type: 'success', text1: 'Aluno editado com sucesso!' })
+    } catch (error) {
+      console.error("Erro ao adicionar aluno: ", error)
+      Toast.show({ type: 'error', text1: 'Erro ao adicionar aluno' })
+    }
+  }
+
+  async function excluir(aluno) {
+    try {
+      const novaListaAlunos = alunos.filter(item => item !== aluno)
+      await AsyncStorage.setItem('@alunos', JSON.stringify(novaListaAlunos))
+      setAlunos(novaListaAlunos)
+      Toast.show({ type: 'success', text1: 'Aluno excluido com sucesso!' })
+    } catch (error) {
+      console.error("Erro ao adicionar aluno: ", error)
+      Toast.show({ type: 'error', text1: 'Erro ao adicionar aluno' })
+    }
   }
 
 
   return (
     <View style={styles.container}>
 
-      <Text variant='titleLarge' style={styles.title} >Lista de Alunos</Text>
+      <View style={{ padding: 5 }}>
+        <Text variant='titleLarge' style={{ textAlign: 'center', fontWeight: 'bold' }}>Lista</Text>
+      </View>
 
       <FlatList
         style={styles.list}
         data={alunos}
         renderItem={({ item }) => (
-          <Card
-            mode='outlined'
-            style={styles.card}
-          >
-            <Card.Content
-              style={styles.cardContent}
-            >
-              <View style={{ flex: 1 }}>
-                <Text variant='titleMedium'>{item?.nome}</Text>
-                <Text variant='bodyLarge'>Matricula: {item?.matricula}</Text>
-                <Text variant='bodyLarge'>Turno: {item?.turno} cm</Text>
-                <Text variant='bodyLarge'>Curso: {item.curso} kg</Text>
-              </View>
+          <>
+            <Card mode='outlined' style={styles.card}>
 
+              <Card.Content style={styles.cardContent}>
+                <View style={{ flex: 2 }}>
+                  <Text style={{ fontWeight: 'bold' }}>{item.nome}</Text>
+                  <Text>Turno: {item.turno}</Text>
+                  <Text>Curso: {item.curso}</Text>
+                </View>
+              </Card.Content>
 
-            </Card.Content>
-            <Card.Actions>
-              <Button onPress={() => navigation.push('FormAlunoAsyncStorage', { acao: editarAluno, aluno: item })}>
-                Editar
-              </Button>
-              <Button onPress={() => {
-                setAlunoASerExcluido(item)
-                showModal()
-              }}>
-                Excluir
-              </Button>
-            </Card.Actions>
-          </Card>
+              <Card.Actions>
+                <Button
+                  onPress={() => navigation.navigate('FormAlunosAsyncStorage', { acao: editar, aluno: item })}
+                >
+                  Editar
+                </Button>
+
+                <Button
+                  onPress={() => excluir(item)}
+                >
+                  Excluir
+                </Button>
+              </Card.Actions>
+
+            </Card>
+
+          </>
         )}
+
+
       />
 
-      {/* Botão Flutuante */}
-      <FAB
-        icon="plus"
-        style={styles.fab}
-        onPress={() => navigation.push('FormAlunoAsyncStorage', { acao: adicionarAluno })}
-      />
-
-
-      {/* Modal Excluir Usuário */}
-      <Portal>
-        <Dialog visible={showModalExcluirUsuario} onDismiss={hideModal}>
-          <Dialog.Title>Atenção!</Dialog.Title>
-          <Dialog.Content>
-            <Text variant="bodyMedium">Tem certeza que deseja excluir este usuário?</Text>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={hideModal}>Voltar</Button>
-            <Button onPress={handleExluirAluno}>Tenho Certeza</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      <Button
+        style={styles.button}
+        mode='contained'
+        onPress={() => navigation.navigate('FormAlunoAsyncStorage', { acao: adicionar })}
+      >
+        Adicionar
+      </Button>
 
     </View>
   )
@@ -139,31 +117,24 @@ export default function ListaAlunosAsyncStorage({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
     justifyContent: 'center',
-    alignItems: 'center'
-  },
-  title: {
-    fontWeight: 'bold',
-    margin: 10
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
   },
   list: {
-    width: '90%',
+    width: '95%'
   },
   card: {
-    marginTop: 15
+    margin: 5
   },
   cardContent: {
     flexDirection: 'row',
     backgroundColor: MD3Colors.primary80,
-    borderWidth: 2,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    paddingBottom: 15
+    paddingBottom: 10,
+  },
+  button: {
+    margin: 10,
+    width: '90%'
   }
 })
