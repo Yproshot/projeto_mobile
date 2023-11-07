@@ -82,7 +82,7 @@ export default function ListaAlunosAsyncStorage({ navigation }) {
 
               <Card.Actions>
                 <Button
-                  onPress={() => navigation.navigate('FormAlunosAsyncStorage', { acao: editar, aluno: item })}
+                  onPress={() => navigation.navigate('FormAlunosAsyncStorager', { acao: editar, aluno: item })}
                 >
                   Editar
                 </Button>
@@ -105,7 +105,7 @@ export default function ListaAlunosAsyncStorage({ navigation }) {
       <Button
         style={styles.button}
         mode='contained'
-        onPress={() => navigation.navigate('FormAlunoAsyncStorage', { acao: adicionar })}
+        onPress={() => navigation.navigate('FormAlunoAsyncStorager', { acao: adicionar })}
       >
         Adicionar
       </Button>

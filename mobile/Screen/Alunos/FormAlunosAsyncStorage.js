@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Button, Text, TextInput } from 'react-native-paper'
 
-export default function FormAlunoAsyncStorage({ navigation, route }) {
+export default function FormAlunoAsyncStorager({ navigation, route }) {
 
   const acao = route.params.acao
   const aluno = route.params.aluno
